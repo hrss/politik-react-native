@@ -18,23 +18,26 @@ export default class HomeScreen extends React.Component {
     header: null,
   };
 
-  // componentDidMount(){
-  //   return fetch(' https://da9a85ca.ngrok.io/api/')
-  //     .then((response) => response.json())
-  //     .then((responseJson) => {
-  //
-  //       this.setState({
-  //         isLoading: false,
-  //         dataSource: responseJson.movies,
-  //       }, function(){
-  //
-  //       });
-  //
-  //     })
-  //     .catch((error) =>{
-  //       console.error(error);
-  //     });
-  // }
+  componentDidMount(){
+    return fetch(' https://0448b185.ngrok.io/api/following',
+    {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json',
+        'Content-type': 'application/json',
+        'Authorization': 'JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo1MTMsInVzZXJuYW1lIjoicm9vdCIsImV4cCI6MTU0MjU0NjQ2MCwiZW1haWwiOiJoZXJuYW5kby5zYXNAZ21haWwuY29tIn0.Y7y_6M7YAKXmV5qEJzRvpbSNCKa1_GIODJysFDVPZeE'
+      },
+    })
+      .then((response) => response.json())
+      .then((responseJson) => {
+
+        console.log(responseJson)
+
+      })
+      .catch((error) =>{
+        console.error(error);
+      });
+  }
 
   render() {
     return (
