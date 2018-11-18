@@ -5,6 +5,7 @@ import { createStackNavigator, createBottomTabNavigator } from 'react-navigation
 import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
 import LinksScreen from '../screens/LinksScreen';
+import LoginScreen from '../screens/LoginScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 
 const HomeStack = createStackNavigator({
@@ -53,8 +54,21 @@ SettingsStack.navigationOptions = {
   ),
 };
 
-export default createBottomTabNavigator({
+const TabStack =  createBottomTabNavigator({
   HomeStack,
   LinksStack,
   SettingsStack,
 });
+
+const RootStack = createStackNavigator(
+  {
+    Login: LoginScreen,
+    Main: TabStack
+  },
+  {
+    initialRouteName: "Login"
+  }
+);
+
+
+export default RootStack;

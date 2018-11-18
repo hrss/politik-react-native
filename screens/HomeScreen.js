@@ -1,6 +1,7 @@
 import React from 'react';
 import {
   Image,
+  FlatList,
   Platform,
   ScrollView,
   StyleSheet,
@@ -17,49 +18,49 @@ export default class HomeScreen extends React.Component {
     header: null,
   };
 
+  // componentDidMount(){
+  //   return fetch(' https://da9a85ca.ngrok.io/api/')
+  //     .then((response) => response.json())
+  //     .then((responseJson) => {
+  //
+  //       this.setState({
+  //         isLoading: false,
+  //         dataSource: responseJson.movies,
+  //       }, function(){
+  //
+  //       });
+  //
+  //     })
+  //     .catch((error) =>{
+  //       console.error(error);
+  //     });
+  // }
+
   render() {
     return (
       <View style={styles.container}>
-        <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
-          <View style={styles.welcomeContainer}>
-            <Image
-              source={
-                __DEV__
-                  ? require('../assets/images/robot-dev.png')
-                  : require('../assets/images/robot-prod.png')
-              }
-              style={styles.welcomeImage}
-            />
-          </View>
 
-          <View style={styles.getStartedContainer}>
-            {this._maybeRenderDevelopmentModeWarning()}
-
-            <Text style={styles.getStartedText}>Get started by opening</Text>
-
-            <View style={[styles.codeHighlightContainer, styles.homeScreenFilename]}>
-              <MonoText style={styles.codeHighlightText}>screens/HomeScreen.js</MonoText>
-            </View>
-
-            <Text style={styles.getStartedText}>
-              Change this text and your app will automatically reload.
-            </Text>
-          </View>
-
-          <View style={styles.helpContainer}>
-            <TouchableOpacity onPress={this._handleHelpPress} style={styles.helpLink}>
-              <Text style={styles.helpLinkText}>Help, it didn’t automatically reload!</Text>
-            </TouchableOpacity>
-          </View>
-        </ScrollView>
-
-        <View style={styles.tabBarInfoContainer}>
-          <Text style={styles.tabBarInfoText}>This is a tab bar. You can edit it in:</Text>
-
-          <View style={[styles.codeHighlightContainer, styles.navigationFilename]}>
-            <MonoText style={styles.codeHighlightText}>navigation/MainTabNavigator.js</MonoText>
-          </View>
-        </View>
+        <FlatList
+           data={[
+             {key: 'Devin'},
+             {key: 'Jackson'},
+             {key: 'James'},
+             {key: 'Joel'},
+             {key: 'John'},
+             {key: 'Jillian'},
+             {key: 'Jimmy'},
+             {key: 'Julie'},
+           ]}
+           renderItem={({item}) =>
+             <View style={styles.row}>
+               <Image
+                 style={styles.rowImage}
+                 source={{uri: 'https://facebook.github.io/react-native/docs/assets/favicon.png'}}
+               />
+               <Text style={styles.rowText}>{item.key}</Text>
+             </View>
+           }
+       />
       </View>
     );
   }
@@ -102,6 +103,21 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
+  },
+  rowImage: {
+    width: 50,
+    height: 50,
+    borderRadius: 50
+  },
+  rowText: {
+    marginLeft: 15,
+    marginTop: 12.5
+  },
+  row: {
+    flexWrap: 'wrap',
+    alignItems: 'flex-start',
+    flexDirection:'row',
+    marginBottom: 5
   },
   developmentModeText: {
     marginBottom: 20,
