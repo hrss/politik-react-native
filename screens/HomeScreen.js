@@ -10,6 +10,7 @@ import {
   View,
 } from 'react-native';
 import { WebBrowser } from 'expo';
+import axios from 'axios';
 
 import { MonoText } from '../components/StyledText';
 
@@ -19,24 +20,28 @@ export default class HomeScreen extends React.Component {
   };
 
   componentDidMount(){
-    return fetch(' https://0448b185.ngrok.io/api/following',
-    {
-      method: 'GET',
-      headers: {
-        'Accept': 'application/json',
-        'Content-type': 'application/json',
-        'Authorization': 'JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo1MTMsInVzZXJuYW1lIjoicm9vdCIsImV4cCI6MTU0MjU0NjQ2MCwiZW1haWwiOiJoZXJuYW5kby5zYXNAZ21haWwuY29tIn0.Y7y_6M7YAKXmV5qEJzRvpbSNCKa1_GIODJysFDVPZeE'
-      },
+    const api = axios.create({
+      baseURL: 'https://0448b185.ngrok.io/api',
+    });
+    api.defaults.headers.common['Authorization'] = 'JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo1MTMsInVzZXJuYW1lIjoicm9vdCIsImV4cCI6MTU0MjU0NjQ2MCwiZW1haWwiOiJoZXJuYW5kby5zYXNAZ21haWwuY29tIn0.Y7y_6M7YAKXmV5qEJzRvpbSNCKa1_GIODJysFDVPZeE';
+    api.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
+    this.loadProduct(api);
+  }
+
+  loadProduct = async (api) => {
+    api.get('/following')
+
+    .then(function (response) {
+      // handle success
+      console.log(response);
     })
-      .then((response) => response.json())
-      .then((responseJson) => {
-
-        console.log(responseJson)
-
-      })
-      .catch((error) =>{
-        console.error(error);
-      });
+    .catch(function (error) {
+      // handle error
+      console.log(error);
+    })
+    .then(function () {
+      // always executed
+    });
   }
 
   render() {
