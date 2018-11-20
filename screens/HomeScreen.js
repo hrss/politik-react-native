@@ -42,7 +42,7 @@ export default class HomeScreen extends React.Component {
    }
 
     const api = axios.create({
-      baseURL: 'https://c1c735b1.ngrok.io/api',
+      baseURL: 'https://063be4cd.ngrok.io/api',
     });
 
     retrieveData().then((response) => {
