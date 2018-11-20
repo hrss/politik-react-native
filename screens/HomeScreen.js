@@ -24,7 +24,8 @@ export default class HomeScreen extends React.Component {
   constructor(props){
       super(props);
       this.state = {
-          data: []
+          data: [],
+          token: ''
       };
   }
 
@@ -39,7 +40,7 @@ export default class HomeScreen extends React.Component {
       } catch (error) {
         console.log(error)
       }
-   }
+    }
 
     const api = axios.create({
       baseURL: 'https://063be4cd.ngrok.io/api',
@@ -48,6 +49,8 @@ export default class HomeScreen extends React.Component {
     retrieveData().then((response) => {
       console.log("this is the response" + response)
       api.defaults.headers.common['Authorization'] = 'JWT ' + response;
+      this.setState({token: response});
+
       //api.defaults.headers.post['Content-Type'] = 'application/json';
       this.loadProduct(api, this);
     })
@@ -58,7 +61,7 @@ export default class HomeScreen extends React.Component {
   }
 
 
-  loadProduct = async (api, st) => {
+  loadProduct = async (api, st, token) => {
     api.get('/following')
 
     .then(function (response) {
@@ -75,6 +78,53 @@ export default class HomeScreen extends React.Component {
     });
   }
 
+  Unfollow = async (item, st) => {
+    async function retrieveData () {
+      try {
+        const value = await AsyncStorage.getItem('api_token');
+        if (value !== null) {
+          console.log(value)
+          return value
+        }
+       } catch (error) {
+         console.log(error)
+       }
+     }
+
+    const api = axios.create({
+      baseURL: 'https://063be4cd.ngrok.io/api',
+    });
+    
+  
+      api.defaults.headers.common['Authorization'] = 'JWT ' + this.state.token;
+      api.defaults.headers.post['Content-Type'] = 'application/json';
+      api.post('/unfollow', {
+        politician: item
+      })
+      .then(function (response) {
+        console.log(reponse);
+      })
+      .catch(function (error) {
+        console.log(error);
+        
+      });
+
+    
+  }
+
+  renderItem = ({item}) => (
+    <View key={item.id} style={styles.row}>
+      <Image
+        style={styles.rowImage}
+        source={{uri: item.photoURL}}
+      />
+      <Text style={styles.rowText}>{item.user_id}</Text>
+      <TouchableOpacity onPress={(item) => {this.Unfollow(item.user_id,this)}} style={styles.buttonUnfollow}>
+        <Text style={styles.buttonUnfollowText}>Unfollow</Text>
+      </TouchableOpacity>
+    </View>
+  );
+
   render() {
     const {navigate} = this.props.navigation;
     return (
@@ -82,15 +132,9 @@ export default class HomeScreen extends React.Component {
 
         <FlatList
            data={this.state.data}
-           renderItem={({item}) =>
-             <TouchableOpacity style={styles.row} onPress={()=> {navigate('Details');}}>
-               <Image
-                 style={styles.rowImage}
-                 source={{uri: item.photoURL}}
-               />
-               <Text style={styles.rowText}>{item.name}</Text>
-             </TouchableOpacity>
-           }
+           keyExtractor={item => item.user_id.toString()}
+           renderItem = {this.renderItem }
+
        />
       </View>
     );
@@ -231,5 +275,13 @@ const styles = StyleSheet.create({
   helpLinkText: {
     fontSize: 14,
     color: '#2e78b7',
+  },
+  buttonUnfollow: {
+    flexDirection: 'row', 
+    justifyContent: 'flex-end',
+  },
+  buttonUnfollowText: {
+    marginLeft: 15,
+    marginTop: 12.5,
   },
 });
