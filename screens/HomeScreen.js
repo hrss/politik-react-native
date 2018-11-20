@@ -79,23 +79,12 @@ export default class HomeScreen extends React.Component {
   }
 
   Unfollow = async (item, st) => {
-    async function retrieveData () {
-      try {
-        const value = await AsyncStorage.getItem('api_token');
-        if (value !== null) {
-          console.log(value)
-          return value
-        }
-       } catch (error) {
-         console.log(error)
-       }
-     }
 
     const api = axios.create({
       baseURL: 'https://063be4cd.ngrok.io/api',
     });
-    
-  
+
+
       api.defaults.headers.common['Authorization'] = 'JWT ' + this.state.token;
       api.defaults.headers.post['Content-Type'] = 'application/json';
       api.post('/unfollow', {
@@ -106,10 +95,10 @@ export default class HomeScreen extends React.Component {
       })
       .catch(function (error) {
         console.log(error);
-        
+
       });
 
-    
+
   }
 
   renderItem = ({item}) => (
@@ -119,7 +108,7 @@ export default class HomeScreen extends React.Component {
         source={{uri: item.photoURL}}
       />
       <Text style={styles.rowText}>{item.user_id}</Text>
-      <TouchableOpacity onPress={(item) => {this.Unfollow(item.user_id,this)}} style={styles.buttonUnfollow}>
+      <TouchableOpacity onPress={() =>{this.Unfollow(item.user_id, this)}} style={styles.buttonUnfollow}>
         <Text style={styles.buttonUnfollowText}>Unfollow</Text>
       </TouchableOpacity>
     </View>
@@ -277,7 +266,7 @@ const styles = StyleSheet.create({
     color: '#2e78b7',
   },
   buttonUnfollow: {
-    flexDirection: 'row', 
+    flexDirection: 'row',
     justifyContent: 'flex-end',
   },
   buttonUnfollowText: {
