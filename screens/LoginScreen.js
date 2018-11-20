@@ -1,6 +1,7 @@
 import React from 'react';
 import {
   Alert,
+  AsyncStorage,
   Button,
   Image,
   Platform,
@@ -10,6 +11,7 @@ import {
   TouchableHighlight,
   View,
 } from 'react-native';
+import axios from 'axios';
 
 export default class LoginScreen extends React.Component {
   static navigationOptions = {
@@ -18,6 +20,34 @@ export default class LoginScreen extends React.Component {
 
   render() {
     const {navigate} = this.props.navigation;
+
+    const api = axios.create({
+      baseURL: 'https://c1c735b1.ngrok.io/api',
+    });
+    api.defaults.headers.post['Content-Type'] = 'application/json';
+
+    async function getApiToken(api, token, _storeData) {
+      api.post('/login', {
+        token: token
+      })
+      .then(function (response) {
+        console.log(response)
+        _storeData(response);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+    }
+
+    async function _storeData(token) {
+      try {
+        alert(token.data.jwt)
+        await AsyncStorage.setItem('api_token', token.data.jwt);
+        navigate('Main');
+      } catch (error) {
+        // Error saving data
+      }
+    }
 
     async function logIn() {
       try {
@@ -28,13 +58,13 @@ export default class LoginScreen extends React.Component {
           permissions,
           declinedPermissions,
         } = await Expo.Facebook.logInWithReadPermissionsAsync('324628148088370', {
-          permissions: ['public_profile', 'email'],
+          permissions: ['email', 'public_profile'],
         });
         if (type === 'success') {
           // Get the user's name using Facebook's Graph API
           const response = await fetch(`https://graph.facebook.com/me?access_token=${token}`);
           Alert.alert('Logged in!', `Hi ${(await response.json()).name}!`);
-          navigate('Main');
+          getApiToken(api, token, _storeData)
         } else {
           // type === 'cancel'
         }

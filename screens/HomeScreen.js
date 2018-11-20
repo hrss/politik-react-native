@@ -1,5 +1,7 @@
 import React from 'react';
 import {
+  Alert,
+  AsyncStorage,
   Image,
   FlatList,
   Platform,
@@ -19,21 +21,50 @@ export default class HomeScreen extends React.Component {
     header: null,
   };
 
-  componentDidMount(){
-    const api = axios.create({
-      baseURL: 'https://0448b185.ngrok.io/api',
-    });
-    api.defaults.headers.common['Authorization'] = 'JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo1MTMsInVzZXJuYW1lIjoicm9vdCIsImV4cCI6MTU0MjU0NjQ2MCwiZW1haWwiOiJoZXJuYW5kby5zYXNAZ21haWwuY29tIn0.Y7y_6M7YAKXmV5qEJzRvpbSNCKa1_GIODJysFDVPZeE';
-    api.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
-    this.loadProduct(api);
+  constructor(props){
+      super(props);
+      this.state = {
+          data: []
+      };
   }
 
-  loadProduct = async (api) => {
+  componentDidMount(){
+    async function retrieveData () {
+     try {
+       const value = await AsyncStorage.getItem('api_token');
+       if (value !== null) {
+         console.log(value)
+         return value
+       }
+      } catch (error) {
+        console.log(error)
+      }
+   }
+
+    const api = axios.create({
+      baseURL: 'https://c1c735b1.ngrok.io/api',
+    });
+
+    retrieveData().then((response) => {
+      console.log("this is the response" + response)
+      api.defaults.headers.common['Authorization'] = 'JWT ' + response;
+      //api.defaults.headers.post['Content-Type'] = 'application/json';
+      this.loadProduct(api, this);
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+
+  }
+
+
+  loadProduct = async (api, st) => {
     api.get('/following')
 
     .then(function (response) {
       // handle success
-      console.log(response);
+      console.log(response.data);
+      st.setState({data: response.data});
     })
     .catch(function (error) {
       // handle error
@@ -49,23 +80,14 @@ export default class HomeScreen extends React.Component {
       <View style={styles.container}>
 
         <FlatList
-           data={[
-             {key: 'Devin'},
-             {key: 'Jackson'},
-             {key: 'James'},
-             {key: 'Joel'},
-             {key: 'John'},
-             {key: 'Jillian'},
-             {key: 'Jimmy'},
-             {key: 'Julie'},
-           ]}
+           data={this.state.data}
            renderItem={({item}) =>
              <View style={styles.row}>
                <Image
                  style={styles.rowImage}
-                 source={{uri: 'https://facebook.github.io/react-native/docs/assets/favicon.png'}}
+                 source={{uri: item.photoURL}}
                />
-               <Text style={styles.rowText}>{item.key}</Text>
+               <Text style={styles.rowText}>{item.name}</Text>
              </View>
            }
        />
