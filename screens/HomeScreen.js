@@ -95,20 +95,20 @@ export default class HomeScreen extends React.Component {
       baseURL: 'https://063be4cd.ngrok.io/api',
     });
     
-  
-      api.defaults.headers.common['Authorization'] = 'JWT ' + this.state.token;
-      api.defaults.headers.post['Content-Type'] = 'application/json';
-      api.post('/unfollow', {
-        politician: item
-      })
-      .then(function (response) {
-        console.log(reponse);
-      })
-      .catch(function (error) {
-        console.log(error);
-        
-      });
-
+    console.log(item)
+    api.defaults.headers.common['Authorization'] = 'JWT ' + this.state.token;
+    api.defaults.headers.post['Content-Type'] = 'application/json';
+    api.post('/unfollow', {
+      politician: item
+    })
+    .then(function (response) {
+      console.log(reponse);
+    })
+    .catch(function (error) {
+      console.log(error);
+      
+    });
+    //falta atualizar o state aqui oara o refresh da pagina
     
   }
 
@@ -118,8 +118,8 @@ export default class HomeScreen extends React.Component {
         style={styles.rowImage}
         source={{uri: item.photoURL}}
       />
-      <Text style={styles.rowText}>{item.user_id}</Text>
-      <TouchableOpacity onPress={(item) => {this.Unfollow(item.user_id,this)}} style={styles.buttonUnfollow}>
+      <Text style={styles.rowText}>{item.name}</Text>
+      <TouchableOpacity onPress={() => {this.Unfollow(item.user_id,this)}} style={styles.buttonUnfollow}>
         <Text style={styles.buttonUnfollowText}>Unfollow</Text>
       </TouchableOpacity>
     </View>
@@ -129,12 +129,10 @@ export default class HomeScreen extends React.Component {
     const {navigate} = this.props.navigation;
     return (
       <View style={styles.container}>
-
         <FlatList
            data={this.state.data}
            keyExtractor={item => item.user_id.toString()}
            renderItem = {this.renderItem }
-
        />
       </View>
     );
