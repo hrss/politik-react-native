@@ -76,19 +76,20 @@ export default class HomeScreen extends React.Component {
   }
 
   render() {
+    const {navigate} = this.props.navigation;
     return (
       <View style={styles.container}>
 
         <FlatList
            data={this.state.data}
            renderItem={({item}) =>
-             <View style={styles.row}>
+             <TouchableOpacity style={styles.row} onPress={()=> {navigate('Details');}}>
                <Image
                  style={styles.rowImage}
                  source={{uri: item.photoURL}}
                />
                <Text style={styles.rowText}>{item.name}</Text>
-             </View>
+             </TouchableOpacity>
            }
        />
       </View>

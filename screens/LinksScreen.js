@@ -78,6 +78,13 @@ export default class LinksScreen extends React.Component {
     return (
       <View style={styles.container}>
 
+      <SearchBar
+      lightTheme
+      searchIcon={false}
+      onChangeText={function() {}}
+      onClear={function(){}}
+      placeholder='Type Here...' />
+
         <FlatList
            data={this.state.data}
            renderItem={({item}) =>
