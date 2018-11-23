@@ -92,7 +92,7 @@ export default class HomeScreen extends React.Component {
     })
     .then(function (response) {
       console.log(reponse);
-      this.forceUpdate();
+      this.navigate('Main');
     })
     .catch(function (error) {
       console.log(error);

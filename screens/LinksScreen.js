@@ -78,6 +78,28 @@ export default class LinksScreen extends React.Component {
     });
   }
 
+  follow = async (item, st) => {
+
+    const api = axios.create({
+      baseURL: 'http://ec2-54-149-173-164.us-west-2.compute.amazonaws.com/api',
+    });
+
+    console.log("Follow:" , item)
+    api.defaults.headers.common['Authorization'] = 'JWT ' + this.state.token;
+    api.defaults.headers.post['Content-Type'] = 'application/json';
+    api.post('/follow', {
+      politician: item
+    })
+    .then(function (response) {
+      console.log(reponse);
+      this.navigate('Main');
+    })
+    .catch(function (error) {
+      console.log(error);
+
+    });
+  }
+
   searchFilterFunction = text => {
     const newData = this.arrayholder.filter(item => {
       const itemData = `${item.name.toUpperCase()}
@@ -90,6 +112,7 @@ export default class LinksScreen extends React.Component {
   };
 
   render() {
+    const {navigate} = this.props.navigation;
     return (
       <View style={styles.container}>
 
@@ -104,13 +127,16 @@ export default class LinksScreen extends React.Component {
         <FlatList
            data={this.state.data}
            renderItem={({item}) =>
-             <View style={styles.row}>
-               <Image
-                 style={styles.rowImage}
-                 source={{uri: item.photoURL}}
-               />
-               <Text style={styles.rowText}>{item.name}</Text>
-             </View>
+              <TouchableOpacity style={styles.row} onPress={()=> {navigate('Details', {item: item})}}>
+                <Image
+                  style={styles.rowImage}
+                  source={{uri: item.photoURL}}
+                />
+                <Text style={styles.rowText}>{item.name}</Text>
+                <TouchableOpacity onPress={() => {this.follow(item.user_id,this)}} style={styles.buttonFollow}>
+                  <Text style={styles.buttonFollowText}>Follow</Text>
+                </TouchableOpacity>
+              </TouchableOpacity>
            }
        />
       </View>
@@ -138,5 +164,13 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
     flexDirection:'row',
     marginBottom: 5
+  },
+  buttonFollow: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+  },
+  buttonFollowText: {
+    marginLeft: 15,
+    marginTop: 12.5,
   },
 });
