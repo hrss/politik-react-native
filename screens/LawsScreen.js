@@ -13,11 +13,11 @@ import {
 } from 'react-native';
 import { ExpoLinksView } from '@expo/samples';
 import axios from 'axios';
-import { SearchBar } from 'react-native-elements'
+import { SearchBar } from 'react-native-elements';
 
-export default class LinksScreen extends React.Component {
+export default class LawsScreen extends React.Component {
   static navigationOptions = {
-    title: 'Links',
+    title: 'Laws',
   };
 
   constructor(props){
@@ -61,7 +61,7 @@ export default class LinksScreen extends React.Component {
 
 
   loadProduct = async (api, st) => {
-    api.get('/politician')
+    api.get('/laws')
 
     .then(function (response) {
       // handle success
@@ -75,28 +75,6 @@ export default class LinksScreen extends React.Component {
     })
     .then(function () {
       // always executed
-    });
-  }
-
-  follow = async (item, st) => {
-
-    const api = axios.create({
-      baseURL: 'http://ec2-54-149-173-164.us-west-2.compute.amazonaws.com/api',
-    });
-
-    console.log("Follow:" , item)
-    api.defaults.headers.common['Authorization'] = 'JWT ' + this.state.token;
-    api.defaults.headers.post['Content-Type'] = 'application/json';
-    api.post('/follow', {
-      politician: item
-    })
-    .then(function (response) {
-      console.log(reponse);
-      this.navigate('Main');
-    })
-    .catch(function (error) {
-      console.log(error);
-
     });
   }
 
@@ -127,16 +105,9 @@ export default class LinksScreen extends React.Component {
         <FlatList
            data={this.state.data}
            renderItem={({item}) =>
-              <TouchableOpacity style={styles.row} onPress={()=> {navigate('Details', {item: item})}}>
-                <Image
-                  style={styles.rowImage}
-                  source={{uri: item.photoURL}}
-                />
-                <Text style={styles.rowText}>{item.name}</Text>
-                <TouchableOpacity onPress={() => {this.follow(item.user_id,this)}} style={styles.buttonFollow}>
-                  <Text style={styles.buttonFollowText}>Follow</Text>
-                </TouchableOpacity>
-
+             <TouchableOpacity style={styles.row} onPress={()=> {navigate('LawDetails', {item: item})}}>
+               <Text style={styles.rowText}>{item.description}</Text>
+             </TouchableOpacity>
            }
        />
       </View>
@@ -164,13 +135,5 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
     flexDirection:'row',
     marginBottom: 5
-  },
-  buttonFollow: {
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
-  },
-  buttonFollowText: {
-    marginLeft: 15,
-    marginTop: 12.5,
   },
 });
