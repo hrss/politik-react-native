@@ -23,9 +23,12 @@ export default class LinksScreen extends React.Component {
   constructor(props){
       super(props);
       this.state = {
-          data: []
+          data: [],
+          fixedData: []
       };
   }
+
+  arrayholder = [];
 
   componentDidMount(){
     async function retrieveData () {
@@ -64,6 +67,7 @@ export default class LinksScreen extends React.Component {
       // handle success
       console.log(response.data);
       st.setState({data: response.data});
+      st.arrayholder = response.data;
     })
     .catch(function (error) {
       // handle error
@@ -74,16 +78,28 @@ export default class LinksScreen extends React.Component {
     });
   }
 
+  searchFilterFunction = text => {
+    const newData = this.arrayholder.filter(item => {
+      const itemData = `${item.name.toUpperCase()}
+      ${item.name.toUpperCase()} ${item.name.toUpperCase()}`;
+       const textData = text.toUpperCase();
+
+       return itemData.indexOf(textData) > -1;
+    });
+    this.setState({ data: newData });
+  };
+
   render() {
     return (
       <View style={styles.container}>
 
       <SearchBar
-      lightTheme
-      searchIcon={false}
-      onChangeText={function() {}}
-      onClear={function(){}}
-      placeholder='Type Here...' />
+        placeholder="Type Here..."
+        lightTheme
+        round
+        onChangeText={text => this.searchFilterFunction(text)}
+        autoCorrect={false}
+      />
 
         <FlatList
            data={this.state.data}
