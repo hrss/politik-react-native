@@ -43,7 +43,7 @@ export default class HomeScreen extends React.Component {
     }
 
     const api = axios.create({
-      baseURL: 'https://063be4cd.ngrok.io/api',
+      baseURL: 'http://ec2-54-149-173-164.us-west-2.compute.amazonaws.com/api',
     });
 
     retrieveData().then((response) => {
@@ -92,7 +92,7 @@ export default class HomeScreen extends React.Component {
      }
 
     const api = axios.create({
-      baseURL: 'https://063be4cd.ngrok.io/api',
+      baseURL: 'http://ec2-54-149-173-164.us-west-2.compute.amazonaws.com/api',
     });
     
     console.log(item)
@@ -103,12 +103,13 @@ export default class HomeScreen extends React.Component {
     })
     .then(function (response) {
       console.log(reponse);
+      this.forceUpdate();
     })
     .catch(function (error) {
       console.log(error);
       
     });
-    //falta atualizar o state aqui oara o refresh da pagina
+    
     
   }
 

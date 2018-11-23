@@ -41,7 +41,7 @@ export default class LinksScreen extends React.Component {
    }
 
     const api = axios.create({
-      baseURL: 'https://063be4cd.ngrok.io/api',
+      baseURL: 'http://ec2-54-149-173-164.us-west-2.compute.amazonaws.com/api',
     });
 
     retrieveData().then((response) => {
