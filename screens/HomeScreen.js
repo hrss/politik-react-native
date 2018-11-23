@@ -119,8 +119,15 @@ export default class HomeScreen extends React.Component {
       <View style={styles.container}>
         <FlatList
            data={this.state.data}
-           keyExtractor={item => item.user_id.toString()}
-           renderItem = {this.renderItem }
+           renderItem={({item}) =>
+             <TouchableOpacity style={styles.row} onPress={()=> {navigate('Details', {item: item})}}>
+               <Image
+                 style={styles.rowImage}
+                 source={{uri: item.photoURL}}
+               />
+               <Text style={styles.rowText}>{item.name}</Text>
+             </TouchableOpacity>
+           }
        />
       </View>
     );
