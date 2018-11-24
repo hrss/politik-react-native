@@ -92,7 +92,7 @@ export default class HomeScreen extends React.Component {
     })
     .then(function (response) {
       console.log(response);
-      this.navigate('Home');
+      st.loadProduct(api, st);
     })
     .catch(function (error) {
       console.log(error);
@@ -119,8 +119,9 @@ export default class HomeScreen extends React.Component {
       <View style={styles.container}>
         <FlatList
            data={this.state.data}
+           keyExtractor = { item => item.id.toString()}
            renderItem={({item}) =>
-           <View key={item.id}>
+           <View>
              <TouchableOpacity style={styles.row} onPress={()=> {navigate('Details', {item: item})}}>
                <Image
                  style={styles.rowImage}
@@ -129,8 +130,8 @@ export default class HomeScreen extends React.Component {
                <Text style={styles.rowText}>{item.name}</Text>
                <TouchableOpacity onPress={() => {this.Unfollow(item.user_id,this)}} style={styles.buttonUnfollow}>
                   <Text style={styles.buttonUnfollowText}>Unfollow</Text>
-                </TouchableOpacity>
-             </TouchableOpacity>
+               </TouchableOpacity>
+              </TouchableOpacity>
              </View>
            }
        />

@@ -93,7 +93,7 @@ export default class LinksScreen extends React.Component {
     })
     .then(function (response) {
       console.log(response);
-      this.navigate('Home');
+      st.navigation.navigate('Home');
     })
     .catch(function (error) {
       console.log(error);
@@ -127,8 +127,9 @@ export default class LinksScreen extends React.Component {
 
         <FlatList
            data={this.state.data}
+           keyExtractor={item => item.id.toString()}
            renderItem={({item}) =>
-              <View key={item.id}>
+              
               <TouchableOpacity style={styles.row} onPress={()=> {navigate('Details', {item: item})}}>
                 <Image
                   style={styles.rowImage}
@@ -139,7 +140,6 @@ export default class LinksScreen extends React.Component {
                   <Text style={styles.buttonFollowText}>Follow</Text>
                 </TouchableOpacity>
               </TouchableOpacity>
-              </View>
            }
        />
       </View>
