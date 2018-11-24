@@ -11,6 +11,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import { NavigationEvents } from 'react-navigation';
 import { WebBrowser } from 'expo';
 import axios from 'axios';
 
@@ -30,6 +31,8 @@ export default class HomeScreen extends React.Component {
   }
 
   componentDidMount(){
+
+    
     async function retrieveData () {
      try {
        const value = await AsyncStorage.getItem('api_token');
@@ -53,6 +56,7 @@ export default class HomeScreen extends React.Component {
 
       //api.defaults.headers.post['Content-Type'] = 'application/json';
       this.loadProduct(api, this);
+      //this.props.navigation.addListener('willFocus',this.loadProduct(api,this));
     })
     .catch(function (error) {
       console.log(error);
@@ -101,7 +105,7 @@ export default class HomeScreen extends React.Component {
   }
 
   renderItem = ({item}) => (
-    <View key={item.id} style={styles.row}>
+    <View style={styles.row}>
       <Image
         style={styles.rowImage}
         source={{uri: item.photoURL}}
@@ -115,8 +119,18 @@ export default class HomeScreen extends React.Component {
 
   render() {
     const {navigate} = this.props.navigation;
+    
     return (
       <View style={styles.container}>
+        <NavigationEvents
+          onWillFocus={  () => {
+            const api = axios.create({
+              baseURL: 'http://ec2-54-149-173-164.us-west-2.compute.amazonaws.com/api',
+            });
+
+            this.loadProduct(api, this);
+          } }
+        />
         <FlatList
            data={this.state.data}
            keyExtractor = { item => item.id.toString()}
