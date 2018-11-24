@@ -50,6 +50,7 @@ export default class LinksScreen extends React.Component {
     retrieveData().then((response) => {
       console.log("this is the response" + response)
       api.defaults.headers.common['Authorization'] = 'JWT ' + response;
+      this.setState({token: response});
       //api.defaults.headers.post['Content-Type'] = 'application/json';
       this.loadProduct(api, this);
     })
@@ -91,8 +92,8 @@ export default class LinksScreen extends React.Component {
       politician: item
     })
     .then(function (response) {
-      console.log(reponse);
-      this.navigate('Main');
+      console.log(response);
+      this.navigate('Home');
     })
     .catch(function (error) {
       console.log(error);
@@ -127,6 +128,7 @@ export default class LinksScreen extends React.Component {
         <FlatList
            data={this.state.data}
            renderItem={({item}) =>
+              <View key={item.id}>
               <TouchableOpacity style={styles.row} onPress={()=> {navigate('Details', {item: item})}}>
                 <Image
                   style={styles.rowImage}
@@ -136,7 +138,8 @@ export default class LinksScreen extends React.Component {
                 <TouchableOpacity onPress={() => {this.follow(item.user_id,this)}} style={styles.buttonFollow}>
                   <Text style={styles.buttonFollowText}>Follow</Text>
                 </TouchableOpacity>
-
+              </TouchableOpacity>
+              </View>
            }
        />
       </View>

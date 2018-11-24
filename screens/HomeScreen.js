@@ -91,8 +91,8 @@ export default class HomeScreen extends React.Component {
       politician: item
     })
     .then(function (response) {
-      console.log(reponse);
-      this.navigate('Main');
+      console.log(response);
+      this.navigate('Home');
     })
     .catch(function (error) {
       console.log(error);
@@ -120,13 +120,18 @@ export default class HomeScreen extends React.Component {
         <FlatList
            data={this.state.data}
            renderItem={({item}) =>
+           <View key={item.id}>
              <TouchableOpacity style={styles.row} onPress={()=> {navigate('Details', {item: item})}}>
                <Image
                  style={styles.rowImage}
                  source={{uri: item.photoURL}}
                />
                <Text style={styles.rowText}>{item.name}</Text>
+               <TouchableOpacity onPress={() => {this.Unfollow(item.user_id,this)}} style={styles.buttonUnfollow}>
+                  <Text style={styles.buttonUnfollowText}>Unfollow</Text>
+                </TouchableOpacity>
              </TouchableOpacity>
+             </View>
            }
        />
       </View>

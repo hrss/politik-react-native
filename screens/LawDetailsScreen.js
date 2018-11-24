@@ -45,7 +45,7 @@ export default class DetailsScreen extends React.Component {
       try {
         alert(token.data.jwt)
         await AsyncStorage.setItem('api_token', token.data.jwt);
-        navigate('Main');
+        navigate('Home');
       } catch (error) {
         // Error saving data
       }
