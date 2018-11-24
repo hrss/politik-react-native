@@ -93,7 +93,7 @@ export default class LinksScreen extends React.Component {
     })
     .then(function (response) {
       console.log(response);
-      st.navigation.navigate('Home');
+      st.props.navigation.navigate('Home');
     })
     .catch(function (error) {
       console.log(error);
