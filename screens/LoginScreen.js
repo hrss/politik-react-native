@@ -60,7 +60,7 @@ export default class LoginScreen extends React.Component {
     const {navigate} = this.props.navigation;
 
     const api = axios.create({
-      baseURL: 'https://cd579e0b.ngrok.io/api',
+      baseURL: 'http://ec2-54-149-173-164.us-west-2.compute.amazonaws.com/api',
     });
     api.defaults.headers.post['Content-Type'] = 'application/json';
     global.api = api
