@@ -12,6 +12,44 @@ import {
   View,
 } from 'react-native';
 import axios from 'axios';
+import { Permissions, Notifications } from 'expo';
+
+
+async function registerForPushNotificationsAsync() {
+  const { status: existingStatus } = await Permissions.getAsync(
+    Permissions.NOTIFICATIONS
+  );
+  let finalStatus = existingStatus;
+
+  // only ask if permissions have not already been determined, because
+  // iOS won't necessarily prompt the user a second time.
+  if (existingStatus !== 'granted') {
+    // Android remote notification permissions are granted during the app
+    // install, so this will only ask on iOS
+    const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
+    finalStatus = status;
+  }
+
+  // Stop here if the user did not grant permissions
+  if (finalStatus !== 'granted') {
+    return;
+  }
+
+  // Get the token that uniquely identifies this device
+  let token = await Notifications.getExpoPushTokenAsync();
+
+  api = global.api
+  api.post('/register_expo', {
+    expo_token: token
+  })
+  .then(function (response) {
+    console.log(response)
+  })
+  .catch(function (error) {
+    console.log(error);
+  });
+}
+
 
 export default class LoginScreen extends React.Component {
   static navigationOptions = {
@@ -22,16 +60,20 @@ export default class LoginScreen extends React.Component {
     const {navigate} = this.props.navigation;
 
     const api = axios.create({
-      baseURL: 'http://ec2-54-149-173-164.us-west-2.compute.amazonaws.com/api',
+      baseURL: 'https://cd579e0b.ngrok.io/api',
     });
     api.defaults.headers.post['Content-Type'] = 'application/json';
+    global.api = api
 
     async function getApiToken(api, token, _storeData) {
       api.post('/login', {
         token: token
       })
       .then(function (response) {
+        global.api.defaults.headers.common['Authorization'] = 'JWT ' + response;
+        global.api.defaults.headers.post['Content-Type'] = 'application/json';
         console.log(response)
+        registerForPushNotificationsAsync()
         _storeData(response);
       })
       .catch(function (error) {
@@ -41,7 +83,7 @@ export default class LoginScreen extends React.Component {
 
     async function _storeData(token) {
       try {
-        alert(token.data.jwt)
+        global.api_token = token.data.jwt;
         await AsyncStorage.setItem('api_token', token.data.jwt);
         navigate('Home');
       } catch (error) {
@@ -64,8 +106,7 @@ export default class LoginScreen extends React.Component {
           // Get the user's name using Facebook's Graph API
           const response = await fetch(`https://graph.facebook.com/me?access_token=${token}`);
           Alert.alert('Logged in!', `Hi ${(await response.json()).name}!`);
-          getApiToken(api, token, _storeData)
-        } else {
+          await getApiToken(api, token, _storeData)
           // type === 'cancel'
         }
       } catch ({ message }) {

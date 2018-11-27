@@ -22,6 +22,15 @@
     ],
     "ios": {
       "supportsTablet": true
+    },
+
+    "android": {
+      "package": "org.politik",
+      "googleServicesFile": "./google-services.json",
+      "versionCode": 1,
+      "permissions": [
+        "VIBRATE"
+      ]
     }
   }
 }

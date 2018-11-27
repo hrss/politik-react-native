@@ -129,7 +129,7 @@ export default class LinksScreen extends React.Component {
            data={this.state.data}
            keyExtractor={item => item.id.toString()}
            renderItem={({item}) =>
-              
+
               <TouchableOpacity style={styles.row} onPress={()=> {navigate('Details', {item: item})}}>
                 <Image
                   style={styles.rowImage}
@@ -140,6 +140,7 @@ export default class LinksScreen extends React.Component {
                   <Text style={styles.buttonFollowText}>Follow</Text>
                 </TouchableOpacity>
               </TouchableOpacity>
+
            }
        />
       </View>
