@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "146192803860",
+    "firebase_url": "https://politik-d244b.firebaseio.com",
+    "project_id": "politik-d244b",
+    "storage_bucket": "politik-d244b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:146192803860:android:2b8468c7e5442811",
+        "android_client_info": {
+          "package_name": "org.politik"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "146192803860-hf2f34led9eqsb9h2r2126i4aq5qfprn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCr6DG78bF1JuaxJqS-rormY47KoDIqRyw"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
