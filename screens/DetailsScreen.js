@@ -21,7 +21,7 @@ export default class DetailsScreen extends React.Component {
 
   render() {
     const {navigate} = this.props.navigation;
-    const item = this.props.navigation.getParam('item')
+    const item = this.props.navigation.getParam('item');
 
     const api = axios.create({
       baseURL: 'http://ec2-54-149-173-164.us-west-2.compute.amazonaws.com/api',

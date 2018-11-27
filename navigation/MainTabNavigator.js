@@ -9,10 +9,11 @@ import LawsScreen from '../screens/LawsScreen';
 import LoginScreen from '../screens/LoginScreen';
 import DetailsScreen from '../screens/DetailsScreen';
 import SettingsScreen from '../screens/SettingsScreen';
+import Profile from '../screens/Profile';
 
 const HomeStack = createStackNavigator({
   Home: HomeScreen,
-  Details: DetailsScreen
+  Details: Profile
 });
 
 HomeStack.navigationOptions = {
