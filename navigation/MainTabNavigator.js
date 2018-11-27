@@ -10,10 +10,12 @@ import LoginScreen from '../screens/LoginScreen';
 import DetailsScreen from '../screens/DetailsScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 import Profile from '../screens/Profile';
+import LawsDetailsScreen from '../screens/LawDetailsScreen'
 
 const HomeStack = createStackNavigator({
   Home: HomeScreen,
-  Details: Profile
+  Details: Profile,
+  LawsDetails: LawsDetailsScreen
 });
 
 HomeStack.navigationOptions = {
@@ -46,6 +48,7 @@ LinksStack.navigationOptions = {
 
 const LawsStack = createStackNavigator({
   Laws: LawsScreen,
+  LawsDetails: LawsDetailsScreen,
 });
 
 LawsStack.navigationOptions = {

@@ -7,6 +7,8 @@ import {
   StyleSheet,
   Text,
   View,
+  FlatList,
+  TouchableOpacity,
 } from 'react-native'
 import { Icon } from 'react-native-elements'
 import {
@@ -97,6 +99,16 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginBottom: 12,
   },
+  law: {
+    flexWrap: 'wrap',
+    alignItems: 'flex-start',
+    flexDirection:'row',
+    marginBottom: 5
+  },
+  lawText: {
+    marginLeft: 15,
+    marginTop: 12.5
+  },
 })
 
 class Profile extends Component {
@@ -138,6 +150,25 @@ class Profile extends Component {
         { key: '4', title: 'followers', count: '1.3 K' },
       ],
     },
+    data: []
+  }
+
+  loadProduct = async (api, st) => {
+    api.get('/laws')
+
+    .then(function (response) {
+      // handle success
+      console.log(response.data);
+      st.setState({data: response.data});
+      st.arrayholder = response.data;
+    })
+    .catch(function (error) {
+      // handle error
+      console.log(error);
+    })
+    .then(function () {
+      // always executed
+    });
   }
 
   onPressPlace = () => {
@@ -166,19 +197,15 @@ class Profile extends Component {
   }
 
   _renderScene = ({ route: { key } }) => {
-    const { posts } = this.props
-    switch (key) {
-    //   case '1':
-    //     return <Posts containerStyle={styles.sceneContainer} posts={posts} />
-    //   case '2':
-    //     return <Posts containerStyle={styles.sceneContainer} posts={posts} />
-    //   case '3':
-    //     return <Posts containerStyle={styles.sceneContainer} posts={posts} />
-    //   case '4':
-    //     return <Posts containerStyle={styles.sceneContainer} posts={posts} />
-      default:
-        return <View />
-    }
+    const {navigate} = this.props.navigation;
+    return <FlatList
+           data={this.state.data}
+           renderItem={({item}) =>
+             <TouchableOpacity style={styles.law} onPress={()=> {navigate('LawDetails', {item: item})}}>
+               <Text style={styles.lawText}>{item.description}</Text>
+             </TouchableOpacity>
+           }
+      />
   }
 
   _renderLabel = props => ({ route, index }) => {
@@ -267,6 +294,8 @@ class Profile extends Component {
 
     const {navigate} = this.props.navigation;
     const item = this.props.navigation.getParam('item');
+
+    this.loadProduct(global.api, this);
 
     const api = axios.create({
       baseURL: 'http://ec2-54-149-173-164.us-west-2.compute.amazonaws.com/api',
