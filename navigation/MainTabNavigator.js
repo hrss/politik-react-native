@@ -16,7 +16,7 @@ const HomeStack = createStackNavigator({
   Home: HomeScreen,
   Details: Profile,
   LawsDetails: LawsDetailsScreen
-});
+}, {headerMode: 'screen'});
 
 HomeStack.navigationOptions = {
   tabBarLabel: 'Home',
@@ -34,7 +34,7 @@ HomeStack.navigationOptions = {
 
 const LinksStack = createStackNavigator({
   Links: LinksScreen,
-});
+}, {headerMode: 'screen'});
 
 LinksStack.navigationOptions = {
   tabBarLabel: 'Links',
@@ -49,7 +49,7 @@ LinksStack.navigationOptions = {
 const LawsStack = createStackNavigator({
   Laws: LawsScreen,
   LawsDetails: LawsDetailsScreen,
-});
+}, {headerMode: 'screen'});
 
 LawsStack.navigationOptions = {
   tabBarLabel: 'Laws',
@@ -63,7 +63,7 @@ LawsStack.navigationOptions = {
 
 const SettingsStack = createStackNavigator({
   Settings: SettingsScreen,
-});
+}, {headerMode: 'screen'});
 
 SettingsStack.navigationOptions = {
   tabBarLabel: 'Settings',
@@ -80,7 +80,8 @@ const TabStack =  createBottomTabNavigator({
   LinksStack,
   SettingsStack,
   LawsStack
-});
+},
+{headerMode: 'screen'});
 
 const RootStack = createStackNavigator(
   {
@@ -88,8 +89,9 @@ const RootStack = createStackNavigator(
     Main: TabStack
   },
   {
-    initialRouteName: "Login"
-  }
+    initialRouteName: "Login",
+    headerMode: 'none'
+  },
 );
 
 

@@ -19,7 +19,7 @@ import { MonoText } from '../components/StyledText';
 
 export default class HomeScreen extends React.Component {
   static navigationOptions = {
-    header: null,
+    title: 'Home'
   };
 
   constructor(props){
@@ -32,7 +32,7 @@ export default class HomeScreen extends React.Component {
 
   componentDidMount(){
 
-    
+
     async function retrieveData () {
      try {
        const value = await AsyncStorage.getItem('api_token');
@@ -119,7 +119,7 @@ export default class HomeScreen extends React.Component {
 
   render() {
     const {navigate} = this.props.navigation;
-    
+
     return (
       <View style={styles.container}>
         <NavigationEvents
