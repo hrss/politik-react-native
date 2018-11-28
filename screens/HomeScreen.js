@@ -14,7 +14,6 @@ import {
 import { NavigationEvents } from 'react-navigation';
 import { WebBrowser } from 'expo';
 import axios from 'axios';
-import { StackActions, NavigationActions } from 'react-navigation';
 
 import { MonoText } from '../components/StyledText';
 
@@ -31,18 +30,8 @@ export default class HomeScreen extends React.Component {
       };
   }
 
-  resetNavigation(targetRoute) {
-    const resetAction = StackActions.reset({
-      index: 0,
-      actions: [
-        NavigationActions.navigate({ routeName: targetRoute }),
-      ],
-    });
-    this.props.navigation.dispatch(resetAction);
-  }
-
   componentDidMount(){
-    this.resetNavigation('Home')
+
     
     async function retrieveData () {
      try {

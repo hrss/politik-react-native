@@ -115,9 +115,9 @@ export default class LoginScreen extends React.Component {
     }
     return (
       <View style={styles.container}>
-        <TouchableHighlight onPress={() => logIn()} underlayColor="white">
+        <TouchableHighlight onPress={() => logIn()} underlayColor="transparent">
           <View style={styles.button}>
-            <Text style={styles.buttonText}>TouchableHighlight</Text>
+            <Text style={styles.buttonText}>Login with Facebook</Text>
           </View>
         </TouchableHighlight>
       </View>
