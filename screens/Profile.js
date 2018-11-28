@@ -150,7 +150,8 @@ class Profile extends Component {
         { key: '4', title: 'followers', count: '1.3 K' },
       ],
     },
-    data: []
+    data: [],
+    following: "Follow",
   }
 
   loadProduct = async (api, st) => {
@@ -158,9 +159,31 @@ class Profile extends Component {
 
     .then(function (response) {
       // handle success
-      console.log(response.data);
       st.setState({data: response.data});
       st.arrayholder = response.data;
+    })
+    .catch(function (error) {
+      // handle error
+      console.log(error);
+    })
+    .then(function () {
+      // always executed
+    });
+  }
+
+  getFollowing = async (api, st) => {
+    console.log("jdsalkjfkldlskfjçadfskçljdksjfdasjfçlakfljdlskjflkdskfljdafsjlkdslfkjdksljf");
+    api.get('/following')
+    .then(function (response) {
+      const item = st.props.navigation.getParam('item');
+      // handle success
+      for (index = 0; index < response.data.length; ++index) {
+        console.log(response.data[index])
+        if (response.data[index].id === item.id){
+          st.setState({following: "Unfollow"});
+          console.log("eu sou burro para caralho")
+        }
+      }
     })
     .catch(function (error) {
       // handle error
@@ -200,6 +223,7 @@ class Profile extends Component {
     const {navigate} = this.props.navigation;
     return <FlatList
            data={this.state.data}
+           keyExtractor={item => item.id.toString()}
            renderItem={({item}) =>
              <TouchableOpacity style={styles.law} onPress={()=> {navigate('LawsDetails', {item: item})}}>
                <Text style={styles.lawText}>{item.description}</Text>
@@ -241,6 +265,7 @@ class Profile extends Component {
   renderContactHeader = () => {
     const {navigate} = this.props.navigation;
     const item = this.props.navigation.getParam('item');
+
     return (
       <View style={styles.headerContainer}>
         <View style={styles.userRow}>
@@ -257,45 +282,55 @@ class Profile extends Component {
             <Text style={styles.userBioText}>PARTIDO</Text>
           </View>
         </View>
-        <View style={styles.socialRow}>
-          <View>
-            <Icon
-              size={30}
-              type="entypo"
-              color="#3B5A98"
-              name="facebook-with-circle"
-              onPress={() => console.log('facebook')}
-            />
-          </View>
-          <View style={styles.socialIcon}>
-            <Icon
-              size={30}
-              type="entypo"
-              color="#56ACEE"
-              name="twitter-with-circle"
-              onPress={() => console.log('twitter')}
-            />
-          </View>
-          <View>
-            <Icon
-              size={30}
-              type="entypo"
-              color="#DD4C39"
-              name="google--with-circle"
-              onPress={() => console.log('google')}
-            />
-          </View>
-        </View>
+        <TouchableOpacity onPress={() => {this.follow(item.user_id,this)}} style={styles.socialRow}>
+          <Text>{this.state.following}</Text>
+        </TouchableOpacity>
       </View>
     )
+  }
+
+  componentDidMount(){
+      this.loadProduct(global.api, this);
+      this.getFollowing(global.api, this);
+  }
+
+  follow = async (item, st) => {
+
+    api = global.api;
+
+    console.log("Follow:" , item)
+
+    if (st.state.following === "Unfollow"){
+      api.post('/unfollow', {
+        politician: item
+      })
+      .then(function (response) {
+        console.log(response);
+        st.setState({following: "Follow"});
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+    }
+
+    if (st.state.following === "Follow"){
+      api.post('/follow', {
+        politician: item
+      })
+      .then(function (response) {
+        console.log(response);
+        st.setState({following: "Unfollow"});
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+    }
   }
 
   render() {
 
     const {navigate} = this.props.navigation;
     const item = this.props.navigation.getParam('item');
-
-    this.loadProduct(global.api, this);
 
     const api = axios.create({
       baseURL: 'http://ec2-54-149-173-164.us-west-2.compute.amazonaws.com/api',
