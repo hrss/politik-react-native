@@ -201,7 +201,7 @@ class Profile extends Component {
     return <FlatList
            data={this.state.data}
            renderItem={({item}) =>
-             <TouchableOpacity style={styles.law} onPress={()=> {navigate('LawDetails', {item: item})}}>
+             <TouchableOpacity style={styles.law} onPress={()=> {navigate('LawsDetails', {item: item})}}>
                <Text style={styles.lawText}>{item.description}</Text>
              </TouchableOpacity>
            }
