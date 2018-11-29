@@ -279,7 +279,7 @@ class Profile extends Component {
             <Text style={styles.userNameText}>{item.name}</Text>
           </View>
           <View style={styles.userBioRow}>
-            <Text style={styles.userBioText}>PARTIDO</Text>
+            <Text style={styles.userBioText}>{item.party} - {item.fu}</Text>
           </View>
         </View>
         <TouchableOpacity onPress={() => {this.follow(item.user_id,this)}} style={styles.socialRow}>
