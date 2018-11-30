@@ -109,6 +109,17 @@ const styles = StyleSheet.create({
     marginLeft: 15,
     marginTop: 12.5
   },
+  buttonUnfollow: {
+    justifyContent: 'center',
+    height:45,
+    flexDirection: 'row',
+    alignItems: 'center',
+    alignSelf: 'center',
+    marginBottom:20,
+    width:100,
+    borderRadius:30,
+    backgroundColor: "#00BFFF",
+  },
 })
 
 class Profile extends Component {
@@ -155,8 +166,10 @@ class Profile extends Component {
   }
 
   loadProduct = async (api, st) => {
-    api.get('/laws')
-
+    const item = st.props.navigation.getParam('item');
+    api.post('/get_votes_for_politician', {
+      pol_id: item.id
+    })
     .then(function (response) {
       // handle success
       st.setState({data: response.data});
@@ -221,13 +234,31 @@ class Profile extends Component {
 
   _renderScene = ({ route: { key } }) => {
     const {navigate} = this.props.navigation;
+    function evaluateVote(vote) {
+      if (vote == null) {
+        return "Não votou";
+      }
+
+      if (vote) {
+        return "Sim";
+      }
+
+      return "Não";
+
+    }
+
     return <FlatList
            data={this.state.data}
-           keyExtractor={item => item.id.toString()}
+           keyExtractor={item => item.law.id.toString()}
            renderItem={({item}) =>
-             <TouchableOpacity style={styles.law} onPress={()=> {navigate('LawsDetails', {item: item})}}>
-               <Text style={styles.lawText}>{item.description}</Text>
-             </TouchableOpacity>
+             <View>
+               <TouchableOpacity style={styles.law} onPress={()=> {navigate('LawsDetails', {item: item.law})}}>
+                 <Text style={styles.lawText}>{item.law.name}</Text>
+               </TouchableOpacity>
+               <View style={styles.buttonUnfollow}>
+                  <Text style={styles.buttonUnfollowText}>{evaluateVote(item.vote)}</Text>
+               </View>
+             </View>
            }
       />
   }
