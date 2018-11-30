@@ -136,9 +136,11 @@ export default class LinksScreen extends React.Component {
                   source={{uri: item.photoURL}}
                 />
                 <Text style={styles.rowText}>{item.name}</Text>
+                <View style={styles.buttonContainer}>
                 <TouchableOpacity onPress={() => {this.follow(item.user_id,this)}} style={styles.buttonFollow}>
                   <Text style={styles.buttonFollowText}>Follow</Text>
                 </TouchableOpacity>
+                </View>
               </TouchableOpacity>
 
            }
@@ -169,12 +171,23 @@ const styles = StyleSheet.create({
     flexDirection:'row',
     marginBottom: 5
   },
+  buttonContainer: {
+    position: 'absolute',
+    right: 0,
+  },
   buttonFollow: {
-    flexDirection: 'row',
     justifyContent: 'flex-end',
+    height:45,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom:20,
+    width:100,
+    borderRadius:30,
+    backgroundColor: "#00BFFF",
   },
   buttonFollowText: {
-    marginLeft: 15,
-    marginTop: 12.5,
+    padding: 10,
+    color: 'white'
   },
 });

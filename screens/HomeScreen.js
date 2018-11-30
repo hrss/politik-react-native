@@ -142,9 +142,11 @@ export default class HomeScreen extends React.Component {
                  source={{uri: item.photoURL}}
                />
                <Text style={styles.rowText}>{item.name}</Text>
+               <View style={styles.buttonContainer}>
                <TouchableOpacity onPress={() => {this.Unfollow(item.user_id,this)}} style={styles.buttonUnfollow}>
                   <Text style={styles.buttonUnfollowText}>Unfollow</Text>
                </TouchableOpacity>
+               </View>
               </TouchableOpacity>
              </View>
            }
@@ -203,7 +205,6 @@ const styles = StyleSheet.create({
   },
   row: {
     flexWrap: 'wrap',
-    alignItems: 'flex-start',
     flexDirection:'row',
     marginBottom: 5
   },
@@ -289,12 +290,26 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#2e78b7',
   },
+  buttonContainer: {
+    position: 'absolute',
+    right: 0,
+  },
   buttonUnfollow: {
-    flexDirection: 'row',
     justifyContent: 'flex-end',
+    height:45,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom:20,
+    width:100,
+    borderRadius:30,
+    backgroundColor: "#00BFFF",
   },
   buttonUnfollowText: {
-    marginLeft: 15,
-    marginTop: 12.5,
+    padding: 10,
+    color: 'white'
   },
 });
+
+
+
