@@ -17,7 +17,7 @@ import { SearchBar } from 'react-native-elements'
 
 export default class LinksScreen extends React.Component {
   static navigationOptions = {
-    title: 'Links',
+    title: 'Search your Politicians...',
   };
 
   constructor(props){

@@ -123,6 +123,10 @@ const styles = StyleSheet.create({
 })
 
 class Profile extends Component {
+  static navigationOptions = {
+    title: 'Politician'
+  };
+
   static propTypes = {
     containerStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.number]),
     tabContainerStyle: PropTypes.oneOfType([

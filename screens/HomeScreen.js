@@ -19,7 +19,7 @@ import { MonoText } from '../components/StyledText';
 
 export default class HomeScreen extends React.Component {
   static navigationOptions = {
-    title: 'Home'
+    title: 'Following',
   };
 
   constructor(props){

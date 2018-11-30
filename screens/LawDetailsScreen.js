@@ -13,7 +13,7 @@ import axios from 'axios';
 
 export default class DetailsScreen extends React.Component {
   static navigationOptions = {
-    header: null,
+    title: 'Law Details and Votes',
   };
 
   constructor(props){
