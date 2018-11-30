@@ -38,6 +38,7 @@ async function registerForPushNotificationsAsync() {
   // Get the token that uniquely identifies this device
   let token = await Notifications.getExpoPushTokenAsync();
 
+  data_saved = global.data_saved;
   api = global.api
   api.post('/register_expo', {
     expo_token: token

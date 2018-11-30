@@ -92,8 +92,10 @@ export default class LawsScreen extends React.Component {
   render() {
     const {navigate} = this.props.navigation;
     return (
-      <View style={styles.container}>
 
+
+      <View style={styles.container}>
+      
       <SearchBar
         placeholder="Type Here..."
         lightTheme
@@ -107,7 +109,7 @@ export default class LawsScreen extends React.Component {
            keyExtractor = {item => item.id.toString()}
            renderItem={({item}) =>
              <TouchableOpacity style={styles.row} onPress={()=> {navigate('LawsDetails', {item: item})}}>
-               <Text style={styles.rowText}>{item.description}</Text>
+               <Text style={styles.rowText}>{item.name}</Text>
              </TouchableOpacity>
            }
        />

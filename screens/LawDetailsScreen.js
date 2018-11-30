@@ -1,16 +1,13 @@
 import React from 'react';
 import {
-  Alert,
   AsyncStorage,
-  Button,
+  FlatList,
   Image,
-  Platform,
-  ScrollView,
   StyleSheet,
   Text,
-  TouchableHighlight,
   View,
-  TouchableOpacity
+  TouchableOpacity,
+  ScrollView
 } from 'react-native';
 import axios from 'axios';
 
@@ -19,35 +16,52 @@ export default class DetailsScreen extends React.Component {
     header: null,
   };
 
+  constructor(props){
+    super(props);
+    this.state = {
+        data: []
+    };
+  }
+  componentDidMount(){
+    const item = this.props.navigation.getParam('item');
+    this.loadRequest(global.api,this,item);
+  }
+
+  loadRequest(api, st, item) {
+    api.post('/get_votes_for_law', {
+      law_id: item.id
+    })
+    .then(function (response) {
+      //console.log(response)
+      st.setState({data: response.data});
+      console.log(st.state.data)
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+  }
+
+
+
+  renderFail = () => {
+    <View><Text>Fail\n</Text></View>
+  }
+
   render() {
     const {navigate} = this.props.navigation;
-    const item = this.props.navigation.getParam('item')
-
+    const out_item = this.props.navigation.getParam('item');
     const api = axios.create({
       baseURL: 'http://ec2-54-149-173-164.us-west-2.compute.amazonaws.com/api',
     });
     api.defaults.headers.post['Content-Type'] = 'application/json';
 
-    async function getApiToken(api, token, _storeData) {
-      api.post('/Details', {
-        token: token
-      })
-      .then(function (response) {
-        console.log(response)
-        _storeData(response);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-    }
-
-    async function _storeData(token) {
-      try {
-        alert(token.data.jwt)
-        await AsyncStorage.setItem('api_token', token.data.jwt);
-        navigate('Home');
-      } catch (error) {
-        // Error saving data
+    voteInterpretate = (vote) => {
+      if (vote === 'null') {
+        return 'Não votou';
+      } else if (vote) {
+          return 'Sim';
+      } else {
+        return 'Nao';
       }
     }
 
@@ -58,85 +72,70 @@ export default class DetailsScreen extends React.Component {
       //       source={{uri: item.photoURL}}
       //     />
       // </View>
-      <View style={styles.container}>
-          <View style={styles.header}></View>
-          <Image style={styles.avatar} source={{uri: item.photoURL}}/>
+      
+
+      
+      <ScrollView>
+          
+          <Text style={styles.header}><Text>Lei</Text></Text>
           <View style={styles.body}>
             <View style={styles.bodyContent}>
-              <Text style={styles.name}>{item.name}</Text>
-              <Text style={styles.info}>Estado: {item.location}</Text>
-              <Text style={styles.description}>Lorem ipsum dolor sit amet, saepe sapientem eu nam. Qui ne assum electram expetendis, omittam deseruisse consequuntur ius an,
-                Lorem ipsum dolor sit amet, saepe sapientem eu nam. Qui ne assum electram expetendis, omittam deseruisse consequuntur ius an,
-                Lorem ipsum dolor sit amet, saepe sapientem eu nam. Qui ne assum electram expetendis, omittam deseruisse consequuntur ius an,
-                Lorem ipsum dolor sit amet, saepe sapientem eu nam. Qui ne assum electram expetendis, omittam deseruisse consequuntur ius an,
-                Lorem ipsum dolor sit amet, saepe sapientem eu nam. Qui ne assum electram expetendis, omittam deseruisse consequuntur ius an,
-                Lorem ipsum dolor sit amet, saepe sapientem eu nam. Qui ne assum electram expetendis, omittam deseruisse consequuntur ius an,
-                Lorem ipsum dolor sit amet, saepe sapientem eu nam. Qui ne assum electram expetendis, omittam deseruisse consequuntur ius an,
-                Lorem ipsum dolor sit amet, saepe sapientem eu nam. Qui ne assum electram expetendis, omittam deseruisse consequuntur ius an,
-                Lorem ipsum dolor sit amet, saepe sapientem eu nam. Qui ne assum electram expetendis, omittam deseruisse consequuntur ius an,
-                Lorem ipsum dolor sit amet, saepe sapientem eu nam. Qui ne assum electram expetendis, omittam deseruisse consequuntur ius an,
-                Lorem ipsum dolor sit amet, saepe sapientem eu nam. Qui ne assum electram expetendis, omittam deseruisse consequuntur ius an,
-                Lorem ipsum dolor sit amet, saepe sapientem eu nam. Qui ne assum electram expetendis, omittam deseruisse consequuntur ius an,
-                Lorem ipsum dolor sit amet, saepe sapientem eu nam. Qui ne assum electram expetendis, omittam deseruisse consequuntur ius an,
-                Lorem ipsum dolor sit amet, saepe sapientem eu nam. Qui ne assum electram expetendis, omittam deseruisse consequuntur ius an,
-                Lorem ipsum dolor sit amet, saepe sapientem eu nam. Qui ne assum electram expetendis, omittam deseruisse consequuntur ius an,
-                Lorem ipsum dolor sit amet, saepe sapientem eu nam. Qui ne assum electram expetendis, omittam deseruisse consequuntur ius an,
-                Lorem ipsum dolor sit amet, saepe sapientem eu nam. Qui ne assum electram expetendis, omittam deseruisse consequuntur ius an,
-                Lorem ipsum dolor sit amet, saepe sapientem eu nam. Qui ne assum electram expetendis, omittam deseruisse consequuntur ius an,
-                Lorem ipsum dolor sit amet, saepe sapientem eu nam. Qui ne assum electram expetendis, omittam deseruisse consequuntur ius an,
-                Lorem ipsum dolor sit amet, saepe sapientem eu nam. Qui ne assum electram expetendis, omittam deseruisse consequuntur ius an,
-                Lorem ipsum dolor sit amet, saepe sapientem eu nam. Qui ne assum electram expetendis, omittam deseruisse consequuntur ius an,
-                Lorem ipsum dolor sit amet, saepe sapientem eu nam. Qui ne assum electram expetendis, omittam deseruisse consequuntur ius an,
-              </Text>
-
-              <TouchableOpacity style={styles.buttonContainer}>
-                <Text>Opcion 1</Text>
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.buttonContainer}>
-                <Text>Opcion 2</Text>
-              </TouchableOpacity>
+              <Text style={styles.name}>{out_item.name}</Text>
+              <Text style={styles.info}>Resumo:</Text>
+              <Text style={styles.description}>{out_item.description}</Text>
+              <Text style={styles.info}>Votes:</Text>
+              
             </View>
+            <FlatList
+                  data={this.state.data}
+                  keyExtractor = { item => item.pol_id.toString()}
+                  renderItem={({item}) => 
+                    <TouchableOpacity style={styles.row}>        
+                      <Image
+                        style={styles.rowImage}
+                        source={{uri: item.photo_url}}
+                      />
+                      <Text style={styles.rowText}>{item.pol_name}</Text>
+                      <View style={styles.buttonContainer}>
+                        <TouchableOpacity style={styles.buttonUnfollow}>
+                            <Text style={styles.buttonUnfollowText}>{voteInterpretate(item.vote)}</Text>
+                        </TouchableOpacity>
+                      </View>
+                    </TouchableOpacity>
+                  
+                  }
+              />
         </View>
-      </View>
+      </ScrollView>
     );
   }
 }
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: 60,
-    alignItems: 'center'
+    flex: 1,
+    backgroundColor: '#fff',
   },
-  photo: {
-    width: 150,
-    height: 150,
-    borderRadius: 250
+  rowImage: {
+    width: 50,
+    height: 50,
+    borderRadius: 50
   },
-  button: {
-    marginBottom: 30,
-    width: 260,
-    alignItems: 'center',
-    backgroundColor: '#2196F3'
+  rowText: {
+    marginLeft: 15,
+    marginTop: 12.5
   },
-  buttonText: {
-    padding: 20,
-    color: 'white'
+  row: {
+    flexWrap: 'wrap',
+    flexDirection:'row',
+    marginBottom: 5
   },
 
   header:{
     backgroundColor: "#00BFFF",
-    height:200,
-  },
-  avatar: {
-    width: 130,
-    height: 130,
-    borderRadius: 63,
-    borderWidth: 4,
-    borderColor: "white",
-    marginBottom:10,
-    alignSelf:'center',
-    position: 'absolute',
-    marginTop:130
+    fontSize: 20,
+    textAlign: 'center',
+    marginTop: 30
   },
   name:{
     fontSize:22,
@@ -144,7 +143,8 @@ const styles = StyleSheet.create({
     fontWeight:'600',
   },
   body:{
-    marginTop:40,
+    marginTop:0,
+    flex: 1,
   },
   bodyContent: {
     flex: 1,
@@ -168,15 +168,22 @@ const styles = StyleSheet.create({
     textAlign: 'center'
   },
   buttonContainer: {
-    marginTop:10,
+    position: 'absolute',
+    right: 0,
+  },
+  buttonUnfollow: {
+    justifyContent: 'center',
     height:45,
     flexDirection: 'row',
-    justifyContent: 'center',
     alignItems: 'center',
     marginBottom:20,
-    width:250,
+    width:100,
     borderRadius:30,
     backgroundColor: "#00BFFF",
+  },
+  buttonUnfollowText: {
+    padding: 10,
+    color: 'white'
   },
 
 });
