@@ -104,6 +104,7 @@ export default class LawsScreen extends React.Component {
 
         <FlatList
            data={this.state.data}
+           keyExtractor = {item => item.id.toString()}
            renderItem={({item}) =>
              <TouchableOpacity style={styles.row} onPress={()=> {navigate('LawsDetails', {item: item})}}>
                <Text style={styles.rowText}>{item.description}</Text>
