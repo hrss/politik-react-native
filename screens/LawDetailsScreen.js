@@ -66,26 +66,22 @@ export default class DetailsScreen extends React.Component {
     }
 
     return (
-      // <View style={styles.container}>
-      //     <Text style={styles.name}>{item.name}</Text>
-      //     <Image style={styles.photo}
-      //       source={{uri: item.photoURL}}
-      //     />
-      // </View>
-      
-
-      
       <ScrollView>
           
-          <Text style={styles.header}><Text>Lei</Text></Text>
-          <View style={styles.body}>
+            <Text style={styles.header}><Text>Lei</Text></Text>
+            <View style={styles.body}>
             <View style={styles.bodyContent}>
               <Text style={styles.name}>{out_item.name}</Text>
-              <Text style={styles.info}>Resumo:</Text>
-              <Text style={styles.description}>{out_item.description}</Text>
-              <Text style={styles.info}>Votes:</Text>
-              
             </View>
+            <Text style={styles.info}>Resumo:</Text>
+            <Text style={styles.description}>{out_item.description}</Text>
+            <Text style={styles.info}>Votes:</Text>
+            <View style={styles.container}>
+            </View>
+            </View>
+
+            <View style={styles.bodyContent}>
+            
             <FlatList
                   data={this.state.data}
                   keyExtractor = { item => item.pol_id.toString()}
@@ -104,8 +100,12 @@ export default class DetailsScreen extends React.Component {
                     </TouchableOpacity>
                   
                   }
-              />
-        </View>
+            />
+            </View>
+            
+            
+            
+        
       </ScrollView>
     );
   }
@@ -140,21 +140,26 @@ const styles = StyleSheet.create({
   name:{
     fontSize:22,
     color:"#FFFFFF",
-    fontWeight:'600',
+    fontWeight:'300',
   },
   body:{
     marginTop:0,
     flex: 1,
+    alignItems: 'center',
   },
   bodyContent: {
     flex: 1,
-    alignItems: 'center',
+    
     padding:30,
   },
   name:{
     fontSize:28,
     color: "#696969",
     fontWeight: "600"
+  },
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
   },
   info:{
     fontSize:16,
