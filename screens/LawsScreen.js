@@ -31,31 +31,10 @@ export default class LawsScreen extends React.Component {
   arrayholder = [];
 
   componentDidMount(){
-    async function retrieveData () {
-     try {
-       const value = await AsyncStorage.getItem('api_token');
-       if (value !== null) {
-         console.log(value)
-         return value
-       }
-      } catch (error) {
-        console.log(error)
-      }
-   }
 
-    const api = axios.create({
-      baseURL: 'http://ec2-54-149-173-164.us-west-2.compute.amazonaws.com/api',
-    });
+    const api = global.api;
 
-    retrieveData().then((response) => {
-      console.log("this is the response" + response)
-      api.defaults.headers.common['Authorization'] = 'JWT ' + response;
-      //api.defaults.headers.post['Content-Type'] = 'application/json';
-      this.loadProduct(api, this);
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
+    this.loadProduct(api, this);
 
   }
 
@@ -95,7 +74,7 @@ export default class LawsScreen extends React.Component {
 
 
       <View style={styles.container}>
-      
+
       <SearchBar
         placeholder="Type Here..."
         lightTheme

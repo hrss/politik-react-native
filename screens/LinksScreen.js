@@ -44,7 +44,7 @@ export default class LinksScreen extends React.Component {
    }
 
     const api = axios.create({
-      baseURL: 'http://ec2-54-149-173-164.us-west-2.compute.amazonaws.com/api',
+      baseURL: 'https://c3e765c3.ngrok.io/api',
     });
 
     retrieveData().then((response) => {
@@ -82,7 +82,7 @@ export default class LinksScreen extends React.Component {
   follow = async (item, st) => {
 
     const api = axios.create({
-      baseURL: 'http://ec2-54-149-173-164.us-west-2.compute.amazonaws.com/api',
+      baseURL: 'https://c3e765c3.ngrok.io/api',
     });
 
     console.log("Follow:" , item)

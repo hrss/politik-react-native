@@ -23,11 +23,7 @@ export default class DetailsScreen extends React.Component {
     const {navigate} = this.props.navigation;
     const item = this.props.navigation.getParam('item');
 
-    const api = axios.create({
-      baseURL: 'http://ec2-54-149-173-164.us-west-2.compute.amazonaws.com/api',
-    });
-    api.defaults.headers.post['Content-Type'] = 'application/json';
-
+    const api = global.api
     async function getApiToken(api, token, _storeData) {
       api.post('/Details', {
         token: token
@@ -88,12 +84,12 @@ export default class DetailsScreen extends React.Component {
                 Lorem ipsum dolor sit amet, saepe sapientem eu nam. Qui ne assum electram expetendis, omittam deseruisse consequuntur ius an,
                 Lorem ipsum dolor sit amet, saepe sapientem eu nam. Qui ne assum electram expetendis, omittam deseruisse consequuntur ius an,
               </Text>
-              
+
               <TouchableOpacity style={styles.buttonContainer}>
-                <Text>Opcion 1</Text>  
-              </TouchableOpacity>              
+                <Text>Opcion 1</Text>
+              </TouchableOpacity>
               <TouchableOpacity style={styles.buttonContainer}>
-                <Text>Opcion 2</Text> 
+                <Text>Opcion 2</Text>
               </TouchableOpacity>
             </View>
         </View>

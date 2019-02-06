@@ -46,7 +46,7 @@ export default class HomeScreen extends React.Component {
     }
 
     const api = axios.create({
-      baseURL: 'http://ec2-54-149-173-164.us-west-2.compute.amazonaws.com/api',
+      baseURL: 'https://c3e765c3.ngrok.io/api',
     });
 
     retrieveData().then((response) => {
@@ -85,7 +85,7 @@ export default class HomeScreen extends React.Component {
   Unfollow = async (item, st) => {
 
     const api = axios.create({
-      baseURL: 'http://ec2-54-149-173-164.us-west-2.compute.amazonaws.com/api',
+      baseURL: 'https://c3e765c3.ngrok.io/api',
     });
 
     console.log(item)
@@ -125,7 +125,7 @@ export default class HomeScreen extends React.Component {
         <NavigationEvents
           onWillFocus={  () => {
             const api = axios.create({
-              baseURL: 'http://ec2-54-149-173-164.us-west-2.compute.amazonaws.com/api',
+              baseURL: 'https://c3e765c3.ngrok.io/api',
             });
 
             this.loadProduct(api, this);
@@ -310,6 +310,3 @@ const styles = StyleSheet.create({
     color: 'white'
   },
 });
-
-
-
