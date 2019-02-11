@@ -44,7 +44,7 @@ export default class LinksScreen extends React.Component {
    }
 
     const api = axios.create({
-      baseURL: 'https://c3e765c3.ngrok.io/api',
+      baseURL: 'https://6e2012fd.ngrok.io/api',
     });
 
     retrieveData().then((response) => {
@@ -82,7 +82,7 @@ export default class LinksScreen extends React.Component {
   follow = async (item, st) => {
 
     const api = axios.create({
-      baseURL: 'https://c3e765c3.ngrok.io/api',
+      baseURL: 'https://6e2012fd.ngrok.io/api',
     });
 
     console.log("Follow:" , item)
@@ -137,7 +137,7 @@ export default class LinksScreen extends React.Component {
                 />
                 <Text style={styles.rowText}>{item.name}</Text>
                 <View style={styles.buttonContainer}>
-                <TouchableOpacity onPress={() => {this.follow(item.user_id,this)}} style={styles.buttonFollow}>
+                <TouchableOpacity onPress={() => {this.follow(item.id,this)}} style={styles.buttonFollow}>
                   <Text style={styles.buttonFollowText}>Follow</Text>
                 </TouchableOpacity>
                 </View>
